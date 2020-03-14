@@ -2,7 +2,6 @@ import fs from 'fs';
 
 import visualRecognition from '../services/VisualRecognition';
 import zip from 'node-zip';
-// var zip = new require('node-zip')();
 
 export default {
     async store(request, response) {
@@ -15,7 +14,7 @@ export default {
         Promise.all(files.map(file =>
             new Promise(resolve => resolve(filesToZip.file(file.filename, fs.readFileSync(file.path))))
         ))
-            .then(data => {
+            .then(_ => {
                 const zipFile = filesToZip.generate({ base64: false, compression: 'DEFLATE' });
 
                 const zipFileName = `zip_file_${Date.now()}`;
@@ -30,13 +29,21 @@ export default {
                 visualRecognition.classify(classifyParams)
                     .then(image => {
                         const classifiedImages = image.result;
-                        return response.json(classifiedImages);
+                        return response.status(200).json(classifiedImages);
                     })
-                    .catch(err => {
-                        console.log('error:', err);
-                    });
+                    .catch(err =>
+                        response.status(200).json({
+                            error: true,
+                            message: 'Error on image classify'
+                        })
+                    );
             })
-            .catch(error => console.log(error));
+            .catch(error =>
+                response.status(200).json({
+                    error: true,
+                    message: 'Error on image process'
+                })
+            );
 
 
 
