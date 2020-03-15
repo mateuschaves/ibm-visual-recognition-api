@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "node ./src/server.js",
+    "start": "sucrase-node ./src/server.js",
     "dev": "sucrase-node ./src/server.js"
   },
   "dependencies": {
@@ -13,6 +13,7 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "global": "^4.4.0",
     "ibm-watson": "^5.4.0",
     "multer": "^1.4.2",
     "node-zip": "^1.1.1"
