@@ -6,7 +6,6 @@ import zip from 'node-zip';
 export default {
     async store(request, response) {
 
-        console.log(request.files[0]);
         const files = request.files || [];
 
         const filesToZip = new zip();
